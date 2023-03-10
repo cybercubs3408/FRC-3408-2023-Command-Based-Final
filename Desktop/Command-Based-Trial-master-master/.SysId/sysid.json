@@ -1,0 +1,11 @@
+{
+  "SysId": {
+    "Analysis Type": "Drivetrain",
+    "NetworkTables Settings": {
+      "serverTeam": "3048"
+    },
+    "clientName": "localhost",
+    "mode": "Client (NT3)",
+    "serverTeam": "3408"
+  }
+}
