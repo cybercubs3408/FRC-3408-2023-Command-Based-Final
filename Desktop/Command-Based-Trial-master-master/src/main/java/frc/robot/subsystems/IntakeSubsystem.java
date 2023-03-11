@@ -6,6 +6,7 @@ import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -36,6 +37,22 @@ public class IntakeSubsystem extends SubsystemBase{
 
     intSpin1.set(0);
     intSpin2.set(0);
+
+  }
+
+  public void fulllStopIntake() {
+
+    intSpin1.set(0);
+    intSpin2.set(0);
+    intFlip1.set(ControlMode.PercentOutput, 0);
+    intFlip2.set(ControlMode.PercentOutput, 0);
+
+  }
+
+  public void flipIntake(double power) {
+
+    intFlip1.set(ControlMode.PercentOutput, power);
+    intFlip2.set(ControlMode.PercentOutput, power);
 
   }
 }

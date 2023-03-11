@@ -25,14 +25,14 @@ public class ArmSubsystem extends SubsystemBase {
     RelativeEncoder m_flippyEncoder = t5.getEncoder();
     RelativeEncoder m_teleEncoder = t7.getEncoder();
 
-    double[] weightDegrees = {0,2,3,4,5};
-    double[] weightPowers = {0,2,3,4,5};
+    public static double[] weightDegrees = {0,2,3,4,5};
+    public static double[] weightPowers = {0,2,3,4,5};
 
-    double[] degreesPosition = {0,2,3,4,5};
-    double[] encoderPosition = {0,2,3,4,5}; 
+    public static double[] degreesPosition = {0,2,3,4,5};
+    public static double[] encoderPosition = {0,2,3,4,5}; 
 
-    double[] teleLength = {0,2,3,4,5};
-    double[] teleEncoder = {0,2,3,4,5}; 
+    public static double[] teleLength = {0,2,3,4,5};
+    public static double[] teleEncoder = {0,2,3,4,5}; 
 
     public ArmSubsystem() {
 
@@ -44,12 +44,14 @@ public class ArmSubsystem extends SubsystemBase {
     public void translateRotLin(XboxController stick) {
         double rotPower = stick.getRawAxis(1);
 
-        t5.set(-rotPower * (0.15));
-        t6.set(-rotPower * (0.15));
+        t5.set(rotPower * (0.15));
+        t6.set(rotPower * (0.15));
 
         double linPower = stick.getRawAxis(5);
 
         t7.set(-linPower * (0.15));
+
+        System.out.println(m_flippyEncoder.getPosition());
 
     }
 
@@ -71,6 +73,19 @@ public class ArmSubsystem extends SubsystemBase {
         t5.set(0);
         t6.set(0);
         t7.set(0);
+
+   }
+
+   public void stopTele() {
+
+     t7.set(0);
+
+   }
+
+   public void stopFlippy() {
+
+     t5.set(0);
+     t6.set(0);
 
    }
 

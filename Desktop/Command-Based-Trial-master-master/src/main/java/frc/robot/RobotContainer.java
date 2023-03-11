@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -51,6 +52,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
   private final ArmSubsystem m_robotArm = new ArmSubsystem();
   private final ClawSubsystem m_robotClaw = new ClawSubsystem();
+  private final Limelight m_limelight = new Limelight(18, 22.5, 42, 33.5, 45, 0, 29);
 
   // The driver's controller
   Joystick left = new Joystick(0);
@@ -65,34 +67,28 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to split-stick tank drive
     m_robotDrive.setDefaultCommand(
-        // A split-stick tank drive command, with forward/backward controlled by the left
-        // hand, and turning controlled by the right.
-        new RunCommand(
-            () ->
-                m_robotDrive.tankDrive(
-                    //-m_driverController.getLeftY(), m_driverController.getRightY()),
-                    left.getRawAxis(1), right.getRawAxis(1)),
-            m_robotDrive));
+      // A split-stick tank drive command, with forward/backward controlled by the left
+      // hand, and turning controlled by the right.
+      new RunCommand(
+        () ->
+          m_robotDrive.tankDrive(left.getRawAxis(1), right.getRawAxis(1)),
+          m_robotDrive));
     
+    // Command for extending and rotating the arm using the joysticks (y-axis) on the xbox controller
     m_robotArm.setDefaultCommand(
       new RunCommand (
         () ->
           m_robotArm.translateRotLin(m_driverController),
           m_robotArm));
     
+    // Command for flipping the intake up and down using the left joystick on the xbox controller
+    // Left up, right down (i think)
+    m_robotIntake.setDefaultCommand(
+      new RunCommand (
+        () ->
+          m_robotIntake.flipIntake(m_driverController.getRawAxis(0)), 
+          m_robotIntake));
   }
-
-  /**
-     * Automatically binds the intakes movement to the reading of the xbox's ___ joystick
-     * up on joystick moves intake up, down on joystick moves intake down
-     */
-    // m_robotIntake.setDefaultCommand(
-    //     new RunCommand(
-    //         () -> m_robotIntake.flipIntake(
-    //                 m_driverController.getRawAxis(1)),
-    //         m_robotIntake));
-
-  
 
   public Command getAutonomousCommand() {
 
@@ -136,18 +132,34 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     
-    // When the ___ button on the ____ is held run intake, when released turn off intake
-    // new JoystickButton(controller, button)
-    //     .onTrue(new InstantCommand(() -> m_robotIntake.runIntake(.3)))
-    //     .onFalse(new InstantCommand(() -> m_robotIntake.stopIntake()));
+    // When the A button on the Xbox controller is held run intake, when released turn off intake
+    new JoystickButton(m_driverController, XboxController.Button.kA.value)
+         .onTrue(new InstantCommand(() -> m_robotIntake.runIntake(.3)))
+         .onFalse(new InstantCommand(() -> m_robotIntake.stopIntake()));
 
+    // While the B button on the Xbox controller is held, run the balance command
     new JoystickButton(m_driverController, XboxController.Button.kB.value)
-            .whileTrue(new BalanceRobot(m_robotDrive));
+            .whileTrue(new RepeatCommand(new BalanceRobot(m_robotDrive)));
 
-        //Press the X button on the Xbox controller to close the claw and hold an object
-    new JoystickButton(m_driverController, XboxController.Button.kX.value)
-          .onTrue(new InstantCommand(() -> m_robotClaw.closeClaw(.3)))
-          .onFalse(new InstantCommand(() -> m_robotClaw.closeClaw(.1)));
-  
+    // Press the X button on the Xbox controller to close the claw and hold an object
+    // WORKING CODE, CLAW NOT CURRENTLY FUNCTIONING
+    // new JoystickButton(m_driverController, XboxController.Button.kX.value)
+    //       .onTrue(new InstantCommand(() -> m_robotClaw.closeClaw(.3)))
+    //       .onFalse(new InstantCommand(() -> m_robotClaw.closeClaw(.1)));
+
+    // Press the Y button on the Xbox controller to open the claw back up after grabbing
+    // CODE NOT WORKING, MUST TRIAL AND ERROR THE ENCODER VALUES WITHIN THE METHOD
+    // new JoystickButton(m_driverController, XboxController.Button.kY.value)
+    //       .onTrue(new InstantCommand(() -> m_robotClaw.openClaw()));
+    
+    // Press the Left bumper button on the Xbox controller to spin the intake in
+    new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
+          .onTrue(new InstantCommand(() -> m_robotIntake.runIntake(.3)))
+          .onFalse(new InstantCommand(() -> m_robotIntake.stopIntake()));
+
+    // Press the Right bumper button on the Xbox controller to spin the intake in
+    new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
+        .onTrue(new InstantCommand(() -> m_robotIntake.runIntake(-.3)))
+        .onFalse(new InstantCommand(() -> m_robotIntake.stopIntake()));
   }
 }

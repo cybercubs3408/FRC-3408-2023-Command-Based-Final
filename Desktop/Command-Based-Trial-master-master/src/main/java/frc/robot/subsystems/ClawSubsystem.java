@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ClawSubsystem {
 
-    CANSparkMax claw = new CANSparkMax(6, MotorType.kBrushless);
+    CANSparkMax claw = new CANSparkMax(15, MotorType.kBrushless);
     RelativeEncoder clawEncoder = claw.getEncoder();
 
     public ClawSubsystem() {
