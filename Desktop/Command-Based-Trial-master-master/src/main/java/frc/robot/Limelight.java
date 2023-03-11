@@ -19,7 +19,10 @@ public class Limelight {
     double xOff, yOff, areaValue, validity, targetDistance;
 
     NetworkTable limelightTable;
-    NetworkTableEntry xOffEntry, yOffEntry, areaValueEntry, validityEntry;
+    public NetworkTableEntry xOffEntry;
+    NetworkTableEntry yOffEntry;
+    NetworkTableEntry areaValueEntry;
+    NetworkTableEntry validityEntry;
 
     /**
      * Constructs a limelight object
