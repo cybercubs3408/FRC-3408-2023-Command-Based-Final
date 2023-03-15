@@ -91,7 +91,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-
+      //Please change the 3 values underneath this code segment to the desired ones using sysid. You better do it eventually, Julian
     var autoVoltageConstraints = new DifferentialDriveVoltageConstraint(
         new SimpleMotorFeedforward(0.00002, 0.00001, 0.000003), m_robotDrive.kinematics, 10);
     TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(2),
@@ -133,33 +133,33 @@ public class RobotContainer {
   private void configureButtonBindings() {
     
     // When the A button on the Xbox controller is held run intake, when released turn off intake
-    new JoystickButton(m_driverController, XboxController.Button.kA.value)
-         .onTrue(new InstantCommand(() -> m_robotIntake.runIntake(.3)))
+    new JoystickButton(m_driverController, 1)
+         .onTrue(new InstantCommand(() -> m_robotIntake.runIntake(.8)))
          .onFalse(new InstantCommand(() -> m_robotIntake.stopIntake()));
 
     // While the B button on the Xbox controller is held, run the balance command
-    new JoystickButton(m_driverController, XboxController.Button.kB.value)
+    new JoystickButton(m_driverController, 2)
             .whileTrue(new RepeatCommand(new BalanceRobot(m_robotDrive)));
 
-    // Press the X button on the Xbox controller to close the claw and hold an object
+    //Press the X button on the Xbox controller to close the claw and hold an object
     // WORKING CODE, CLAW NOT CURRENTLY FUNCTIONING
-    // new JoystickButton(m_driverController, XboxController.Button.kX.value)
-    //       .onTrue(new InstantCommand(() -> m_robotClaw.closeClaw(.3)))
-    //       .onFalse(new InstantCommand(() -> m_robotClaw.closeClaw(.1)));
+    new JoystickButton(m_driverController, 3)
+           .onTrue(new InstantCommand(() -> m_robotClaw.closeClaw(-.2)))
+           .onFalse(new InstantCommand(() -> m_robotClaw.stopClaw()));
 
     // Press the Y button on the Xbox controller to open the claw back up after grabbing
     // CODE NOT WORKING, MUST TRIAL AND ERROR THE ENCODER VALUES WITHIN THE METHOD
-    // new JoystickButton(m_driverController, XboxController.Button.kY.value)
-    //       .onTrue(new InstantCommand(() -> m_robotClaw.openClaw()));
+     new JoystickButton(m_driverController, 4)
+           .onTrue(new InstantCommand(() -> m_robotClaw.openClaw()));
     
     // Press the Left bumper button on the Xbox controller to spin the intake in
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
-          .onTrue(new InstantCommand(() -> m_robotIntake.runIntake(.3)))
+          .onTrue(new InstantCommand(() -> m_robotIntake.runIntake(.45)))
           .onFalse(new InstantCommand(() -> m_robotIntake.stopIntake()));
 
     // Press the Right bumper button on the Xbox controller to spin the intake in
     new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
-        .onTrue(new InstantCommand(() -> m_robotIntake.runIntake(-.3)))
+        .onTrue(new InstantCommand(() -> m_robotIntake.runIntake(-.45)))
         .onFalse(new InstantCommand(() -> m_robotIntake.stopIntake()));
   }
 }

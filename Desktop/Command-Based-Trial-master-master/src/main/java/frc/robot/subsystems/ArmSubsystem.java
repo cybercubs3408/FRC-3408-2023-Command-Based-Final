@@ -49,9 +49,9 @@ public class ArmSubsystem extends SubsystemBase {
 
         double linPower = stick.getRawAxis(5);
 
-        t7.set(-linPower * (0.15));
-
-        System.out.println(m_flippyEncoder.getPosition());
+        t7.set(-linPower * (0.4));
+        System.out.println("Flip Encoder: " + m_flippyEncoder.getPosition());
+        System.out.println("Tele Encoder: " + m_teleEncoder.getPosition());
 
     }
 

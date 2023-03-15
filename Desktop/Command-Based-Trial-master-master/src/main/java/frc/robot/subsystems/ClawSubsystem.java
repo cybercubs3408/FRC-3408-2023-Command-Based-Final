@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ClawSubsystem {
 
-    CANSparkMax claw = new CANSparkMax(15, MotorType.kBrushless);
+    CANSparkMax claw = new CANSparkMax(10, MotorType.kBrushless);
     RelativeEncoder clawEncoder = claw.getEncoder();
 
     public ClawSubsystem() {
@@ -57,8 +57,8 @@ public class ClawSubsystem {
         resetEncoders();
 
         //Encoder value of open state, number likely must be changed
-        while (Math.abs(clawEncoder.getPosition()) < .35) {
-            claw.set(-.15);
+        while (Math.abs(clawEncoder.getPosition()) < .5) {
+            claw.set(.15);
         }
         stopClaw();
     }

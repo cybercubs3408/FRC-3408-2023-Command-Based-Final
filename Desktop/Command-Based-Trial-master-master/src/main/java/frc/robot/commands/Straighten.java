@@ -19,13 +19,13 @@ public class Straighten extends CommandBase{
 
     public void execute(){
 
-        if (m_limelight.xOffEntry.getDouble(0) > 10) {
+        if (m_limelight.xOffEntry.getDouble(0) > 17) {
 
             m_driveSubsystem.tankDrive(0, 0.25);
 
         }
 
-        else if (m_limelight.xOffEntry.getDouble(0) < 0) {
+        else if (m_limelight.xOffEntry.getDouble(0) < 7) {
 
             m_driveSubsystem.tankDrive(0.25, 0);
 

@@ -15,8 +15,8 @@ public class IntakeSubsystem extends SubsystemBase{
     
   WPI_TalonSRX intFlip1 = new WPI_TalonSRX(11);  
   WPI_TalonSRX intFlip2 = new WPI_TalonSRX(12);
-  CANSparkMax intSpin1 = new CANSparkMax(13, MotorType.kBrushless);  
-  CANSparkMax intSpin2 = new CANSparkMax(14, MotorType.kBrushless);  
+  CANSparkMax intSpin1 = new CANSparkMax(8, MotorType.kBrushless);  
+  CANSparkMax intSpin2 = new CANSparkMax(9, MotorType.kBrushless);  
 
   public IntakeSubsystem() {
   }
@@ -26,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase{
  */
   public void runIntake(double power) {
 
-    intSpin1.set(power);
+    intSpin1.set(-power);
     intSpin2.set(power);
 
   }

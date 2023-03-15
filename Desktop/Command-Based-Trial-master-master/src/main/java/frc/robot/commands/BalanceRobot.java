@@ -36,20 +36,22 @@ public class BalanceRobot extends CommandBase {
   public void execute() {
 
     double value = m_robotDriver.getHeading2();
+    System.out.println(value);
     m_robotDriver.stopMotors();
 
-    if(Math.abs(value) > 2.5) {
+    if(Math.abs(value) + 1.2 > 2.5) {
 
       if (value > 2.5) {
 
-        m_robotDriver.tankDrive(.225, .225);
+        m_robotDriver.tankDrive(.2, .2);
         value = m_robotDriver.getHeading2();
 
       }
 
       else if (value < -2.5) {
 
-        m_robotDriver.tankDrive(-.225, -.225);
+
+        m_robotDriver.tankDrive(-.2, -.2);
         value = m_robotDriver.getHeading2();
 
       }

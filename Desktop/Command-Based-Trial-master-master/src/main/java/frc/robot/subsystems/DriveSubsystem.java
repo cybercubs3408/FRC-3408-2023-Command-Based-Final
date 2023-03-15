@@ -47,7 +47,7 @@ public class DriveSubsystem extends SubsystemBase {
   // The gyro sensor
   ADIS16470_IMU m_gyro = new ADIS16470_IMU();
 
-  public DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(28));
+  public DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(20));
   DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading(), m_leftEncoder.getPosition(), m_rightEncoder.getPosition());
 
   SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(getLeftEncoder(), getRightEncoder(), getLeftEncoder());
@@ -67,6 +67,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     t1.setInverted(true);
     t2.setInverted(true);
+    t3.setInverted(true);
 
   }
 
@@ -180,6 +181,6 @@ public PIDController getRightPIDController(){
   }
 
   public void reset(){
-    odometry.resetPosition(getHeading(), getLeftEncoder(), getHeading2(), pose);;
+    odometry.resetPosition(getHeading(), getLeftEncoder(), getHeading2(), pose);
   }
 }
